@@ -110,7 +110,7 @@ const Header = () => {
             <Link to="/" className="flex items-center gap-2 lg:gap-3 group shrink-0">
                <img src={Logo} alt="Logo" className="h-7 w-7 lg:h-9 lg:w-9" />
                <span className="text-lg lg:text-2xl font-serif font-bold tracking-tighter text-[#1A2E1A]">
-                Vri<span className="text-green-700 font-light italic">tant</span>
+                VRI<span className="text-green-700 font-light italic">TANT</span>
               </span>
             </Link>
 
