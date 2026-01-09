@@ -45,7 +45,7 @@ const Footer = () => {
               <div className="w-10 h-10 bg-green-800 rounded-full flex items-center justify-center">
                 <Leaf size={20} className="text-green-300" />
               </div>
-              <span className="text-2xl font-serif tracking-tight uppercase">Ayurveda</span>
+              <span className="text-2xl font-serif tracking-tight uppercase">Vritant</span>
             </div>
             <p className="text-green-200/50 text-sm leading-relaxed">
               Synthesizing ancient Vedic wisdom with modern purity standards to bring you nature's most potent remedies.
@@ -97,7 +97,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <Phone size={18} className="text-green-500 shrink-0" />
-                <span className="text-green-200/60">+91 98765 43210</span>
+                <span className="text-green-200/60">+91 1234567890</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <Mail size={18} className="text-green-500 shrink-0" />
