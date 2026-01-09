@@ -27,7 +27,7 @@ const ProductList = () => {
       title: "Pure Vitality",
       subtitle: "Himalayan Shilajit Resin",
       offer: "Buy 1 Get 1 Free",
-      image: "https://images.unsplash.com/photo-1615485500704-8e990fdd9044?auto=format&fit=crop&q=80&w=1600",
+      image: "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=800",
       color: "bg-stone-800"
     },
     {

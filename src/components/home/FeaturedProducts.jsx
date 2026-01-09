@@ -146,6 +146,7 @@ const FeaturedProducts = () => {
               animate={{ opacity: 1, y: 0 }}
               className="mt-24 flex justify-center"
             >
+              <a href="/shop">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -158,6 +159,7 @@ const FeaturedProducts = () => {
                 </div>
                 <div className="absolute inset-0 bg-green-900 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
               </motion.button>
+              </a>
             </motion.div>
           )}
         </AnimatePresence>
