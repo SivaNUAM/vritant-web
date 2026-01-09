@@ -43,23 +43,81 @@ const Header = () => {
     <>
       {/* 1. FULL PAGE TRANSITION LOADER */}
       <AnimatePresence>
-        {isNavigating && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-[#FDFCF8] flex flex-col items-center justify-center"
-          >
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }} className="relative">
-               <Sparkles size={40} className="text-green-800 opacity-20" />
-               <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity }} className="absolute inset-0 border-2 border-green-800/30 rounded-full scale-150" />
-            </motion.div>
-            <p className="mt-8 text-[9px] font-black uppercase tracking-[0.6em] text-green-900/40">
-              Aligning Rituals
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+  {isNavigating && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
+      className="fixed inset-0 z-[200] bg-[#FDFCF8] flex flex-col items-center justify-center overflow-hidden"
+    >
+      {/* 1. ORGANIC BACKGROUND PULSE */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3] 
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute w-[500px] h-[500px] bg-green-100/40 rounded-full blur-[120px] -z-10"
+      />
+
+      {/* 2. THE CENTERPIECE: SYMBOLIC GROWTH */}
+      <div className="relative flex items-center justify-center">
+        {/* Outer Ring - slow rotation */}
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0 border-[1px] border-dashed border-green-800/20 rounded-full scale-[2.5]"
+        />
+        
+        {/* Inner Sparkle with heartbeat scale */}
+        <motion.div
+          animate={{ 
+            scale: [0.9, 1.1, 0.9],
+            opacity: [0.4, 1, 0.4]
+          }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Sparkles size={48} strokeWidth={1} className="text-green-900" />
+        </motion.div>
+      </div>
+
+      {/* 3. ELEGANT TEXT REVEAL */}
+      <div className="mt-16 overflow-hidden flex flex-col items-center">
+        <motion.h2
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-2xl font-serif italic text-green-900 tracking-tight"
+        >
+          Vritant
+        </motion.h2>
+        
+        {/* Progress Bar - Minimalist */}
+        <div className="w-32 h-[1px] bg-green-900/10 mt-4 relative overflow-hidden">
+          <motion.div 
+            initial={{ x: "-100%" }}
+            animate={{ x: "100%" }}
+            transition={{ 
+              duration: 1.5, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
+            className="absolute inset-0 bg-green-800 w-1/2"
+          />
+        </div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="mt-6 text-[8px] font-black uppercase tracking-[0.8em] text-green-900/30 ml-[0.8em]"
+        >
+          Aligning Rituals
+        </motion.p>
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
 
       <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled ? "py-3" : "py-5"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -140,10 +198,10 @@ const Header = () => {
 
               {/* --- YOUR ORIGINAL LINKS & LAYOUT --- */}
               <div className="flex flex-col h-full pt-32 px-8 pb-12 relative z-10">
-                <div className="flex justify-between items-center mb-12 border-b border-gray-100 pb-6">
+                {/* <div className="flex justify-between items-center mb-12 border-b border-gray-100 pb-6">
                    <span className="font-serif italic text-xl">Menu</span>
                    <button onClick={() => setMobileMenuOpen(false)} className="p-2 hover:bg-gray-50 rounded-full"><X size={24} /></button>
-                </div>
+                </div> */}
 
                 <div className="flex flex-col gap-8">
                   {navLinks.map((link, i) => (

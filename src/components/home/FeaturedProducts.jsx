@@ -2,18 +2,20 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { products } from "../../data/products";
 import ProductCard from "../product/ProductCard";
-import { ArrowRight, Sparkles, Plus, Search, X } from "lucide-react";
+import { Sparkles, Search, X, Plus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const FeaturedProducts = () => {
-  const [visibleCount, setVisibleCount] = useState(8);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Memoized filtering for high performance
+  // Memoized filtering - shows top 8 by default or filtered results
   const filteredProducts = useMemo(() => {
-    return products.filter((p) =>
+    const results = products.filter((p) =>
       p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.category.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    // If no search, we just show a featured selection (first 8)
+    return searchQuery ? results : results.slice(0, 8);
   }, [searchQuery]);
 
   const containerVariants = {
@@ -64,7 +66,6 @@ const FeaturedProducts = () => {
               </motion.h2>
             </div>
 
-            {/* HIGH-END SEARCH INPUT */}
             <div className="relative w-full md:max-w-md group">
               <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-700 transition-colors">
                 <Search size={20} strokeWidth={1.5} />
@@ -73,7 +74,7 @@ const FeaturedProducts = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search remedies (e.g. Ashwagandha)..."
+                placeholder="Search remedies..."
                 className="w-full bg-white border border-gray-100 py-5 pl-14 pr-12 rounded-2xl shadow-sm focus:ring-4 focus:ring-green-700/5 focus:border-green-700/30 outline-none transition-all font-medium text-[#1A2E1A] placeholder:text-gray-300"
               />
               <AnimatePresence>
@@ -102,7 +103,7 @@ const FeaturedProducts = () => {
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12 lg:gap-x-8 lg:gap-y-16"
         >
           <AnimatePresence mode='popLayout'>
-            {filteredProducts.slice(0, visibleCount).map((product) => (
+            {filteredProducts.map((product) => (
               <motion.div 
                 layout
                 key={product.id} 
@@ -128,7 +129,6 @@ const FeaturedProducts = () => {
               <Search size={40} className="text-gray-200" />
             </div>
             <h3 className="text-2xl font-serif text-[#1A2E1A]">No remedies found</h3>
-            <p className="text-gray-500 mt-2">Try searching for a different herb or category.</p>
             <button 
               onClick={() => setSearchQuery("")}
               className="mt-6 text-green-700 font-bold text-[10px] uppercase tracking-widest border-b border-green-700 pb-1"
@@ -138,31 +138,29 @@ const FeaturedProducts = () => {
           </motion.div>
         )}
 
-        {/* --- SEE MORE BUTTON --- */}
-        <AnimatePresence>
-          {visibleCount < filteredProducts.length && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-24 flex justify-center"
-            >
-              <a href="/shop">
+        {/* --- DISCOVER MORE BUTTON (NAVIGATION ONLY) --- */}
+        {!searchQuery && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-24 flex justify-center"
+          >
+            <Link to="/shop">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setVisibleCount(prev => prev + 4)}
                 className="group relative flex items-center gap-8 bg-[#1A2E1A] text-white pl-10 pr-3 py-3 rounded-full shadow-[0_20px_50px_rgba(26,46,26,0.15)] overflow-hidden"
               >
-                <span className="text-[11px] font-black uppercase tracking-[0.25em] z-10">Discover More</span>
+                <span className="text-[11px] font-black uppercase tracking-[0.25em] z-10">Discover Full Collection</span>
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-[#1A2E1A] transition-all duration-500 z-10">
                   <Plus size={20} className="group-hover:rotate-90 transition-transform duration-500" />
                 </div>
                 <div className="absolute inset-0 bg-green-900 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
               </motion.button>
-              </a>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </Link>
+          </motion.div>
+        )}
       </div>
     </section>
   );
