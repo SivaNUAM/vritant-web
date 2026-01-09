@@ -1,5 +1,6 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Star, Leaf } from "lucide-react";
 import Button from "../common/Button";
 
@@ -7,8 +8,41 @@ const Hero = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 150]);
 
+  // --- TYPEWRITER (WRITTEN) LOGIC ---
+  const words = ["Refined.", "Pure.", "Restored.", "Healed."];
+  const [index, setIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(150);
+
+  useEffect(() => {
+    const handleTyping = () => {
+      const currentFullWord = words[index];
+      
+      if (!isDeleting) {
+        // Adding characters
+        setDisplayText(currentFullFullWord => currentFullFullWord = currentFullWord.substring(0, displayText.length + 1));
+        setTypingSpeed(150);
+      } else {
+        // Removing characters
+        setDisplayText(currentFullFullWord => currentFullFullWord = currentFullWord.substring(0, displayText.length - 1));
+        setTypingSpeed(75);
+      }
+
+      // Determine when to switch states
+      if (!isDeleting && displayText === currentFullWord) {
+        setTimeout(() => setIsDeleting(true), 2000); // Pause at end
+      } else if (isDeleting && displayText === "") {
+        setIsDeleting(false);
+        setIndex((prev) => (prev + 1) % words.length);
+      }
+    };
+
+    const timer = setTimeout(handleTyping, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, index, typingSpeed]);
+
   return (
-    // min-h-screen ensures it fills the desktop view perfectly
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#FDFCF8] pt-20 lg:pt-0">
       
       {/* 1. BACKGROUND AMBIENCE */}
@@ -20,7 +54,7 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-4 items-center">
           
-          {/* 2. TEXT CONTENT (Spans 7 cols on desktop) */}
+          {/* 2. TEXT CONTENT */}
           <div className="lg:col-span-7 order-2 lg:order-1 flex flex-col justify-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -49,10 +83,21 @@ const Hero = () => {
                   </motion.svg>
                 </span>
                 <br />
-                <span className="text-green-700 italic font-light">Refined.</span>
+                
+                {/* --- WRITTEN ANIMATION DISPLAY --- */}
+                <div className="h-[1.2em] flex items-center">
+                  <span className="text-green-700 italic font-light inline-block">
+                    {displayText}
+                    <motion.span 
+                      animate={{ opacity: [1, 0] }}
+                      transition={{ repeat: Infinity, duration: 0.8 }}
+                      className="inline-block w-[3px] h-[0.8em] bg-green-700/30 ml-1 translate-y-1"
+                    />
+                  </span>
+                </div>
               </h1>
 
-              <p className="text-lg lg:text-xl text-gray-500 max-w-lg leading-relaxed font-light mb-10">
+              <p className="text-lg lg:text-xl text-gray-500 max-w-lg leading-relaxed font-light mb-10 mt-4">
                 Bridging ancient Vedic wisdom and modern science 
                 for 100% plant-based healing.
               </p>
@@ -67,21 +112,21 @@ const Hero = () => {
                 <div className="flex items-center gap-4">
                   <div className="flex -space-x-3">
                     {[1, 2, 3].map((i) => (
-                      <img key={i} className="w-10 h-10 rounded-full border-2 border-white" src={`https://i.pravatar.cc/100?img=${i+10}`} alt="user" />
+                      <img key={i} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" src={`https://i.pravatar.cc/100?img=${i+10}`} alt="user" />
                     ))}
                   </div>
                   <div className="flex flex-col">
                     <div className="flex text-yellow-500">
-                      {[...Array(5)].map((_, i) => <Star key={i} size={12} fill="currentColor" />)}
+                      {[...Array(5)].map((_, i) => <Star key={i} size={10} fill="currentColor" stroke="none" />)}
                     </div>
-                    <span className="text-xs font-bold text-gray-800">2k+ Happy Souls</span>
+                    <span className="text-[10px] font-black uppercase tracking-tighter text-gray-800">2k+ Happy Souls</span>
                   </div>
                 </div>
               </div>
             </motion.div>
           </div>
 
-          {/* 3. IMAGE STACK (Spans 5 cols on desktop) */}
+          {/* 3. IMAGE STACK */}
           <div className="lg:col-span-5 order-1 lg:order-2 relative flex justify-center lg:justify-end">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9, x: 30 }}
@@ -89,16 +134,15 @@ const Hero = () => {
               transition={{ duration: 1 }}
               className="relative w-full max-w-[320px] sm:max-w-[400px] lg:max-w-full"
             >
-              {/* Premium Image Frame */}
               <div className="relative rounded-[3rem] lg:rounded-[4rem] overflow-hidden shadow-2xl bg-white border-[8px] lg:border-[16px] border-white aspect-[4/5] z-10">
                 <img
                   src="https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=1200"
                   alt="Ayurveda Premium"
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
-              {/* Glass Floating Card - Locked to not break desktop container */}
+              {/* Floating Glass Card */}
               <motion.div 
                 animate={{ y: [0, -15, 0] }}
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
@@ -112,8 +156,12 @@ const Hero = () => {
               </motion.div>
 
               {/* Circular Badge */}
-              <div className="absolute -bottom-6 -left-6 lg:-bottom-12 lg:-left-12 w-28 h-28 lg:w-40 lg:h-40 bg-white rounded-full shadow-2xl flex items-center justify-center text-center p-4 z-20">
-                <div className="animate-spin-slow absolute inset-0 rounded-full border-t-2 border-green-100 border-dashed" />
+              <div className="absolute -bottom-6 -left-6 lg:-bottom-12 lg:-left-12 w-28 h-28 lg:w-40 lg:h-40 bg-white rounded-full shadow-2xl flex items-center justify-center text-center p-4 z-20 overflow-hidden">
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0 rounded-full border-t-2 border-green-100 border-dashed" 
+                />
                 <span className="text-[9px] lg:text-[11px] font-black uppercase tracking-tighter text-gray-400">
                   Non-GMO <br /> Gluten Free <br /> Vegan
                 </span>
