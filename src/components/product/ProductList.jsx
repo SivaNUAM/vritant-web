@@ -86,7 +86,7 @@ const ProductList = () => {
   });
 
   return (
-    <section className="bg-[#FDFCF8] min-h-screen pb-24">
+<section  className="bg-[#FDFCF8] min-h-screen pb-24">
       
       {/* --- SECTION 1: OFFER CAROUSEL --- */}
       <div className="relative h-[500px] lg:h-[650px] overflow-hidden bg-black mb-20">
@@ -128,9 +128,11 @@ const ProductList = () => {
                 transition={{ delay: 0.2 }}
                 className="flex items-center gap-6"
               >
+                <a href="#products">
                 <button className="bg-white text-black px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-green-500 hover:text-white transition-all">
                   Shop Offer
                 </button>
+                </a>
                 <span className="text-2xl italic font-light">{banners[currentSlide].offer}</span>
               </motion.div>
             </div>
@@ -209,7 +211,9 @@ const ProductList = () => {
         </div>
 
         {/* SECTION 4: PRODUCT GRID */}
+
       <motion.div
+      id="products"
   layout
   className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12"
 >
@@ -288,15 +292,30 @@ const ProductList = () => {
             <div className="relative h-11 lg:h-12 w-full overflow-hidden rounded-xl lg:rounded-2xl">
               <AnimatePresence mode="wait">
                 {quantity === 0 ? (
-                  <button 
-            onClick={() => addToCart(product)}
-            className="w-full flex items-center justify-center gap-2 bg-[#1A2E1A] text-white h-10 lg:h-12 px-2 rounded-xl lg:rounded-2xl hover:bg-green-800 transition-all duration-300 active:scale-95 shadow-md group/btn"
-          >
-            <ShoppingBag className="w-3.5 h-3.5 group-hover/btn:rotate-12 transition-transform" />
-            <span className="text-[9px] lg:text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">
-              Add to Bag
-            </span>
-          </button>
+                <motion.button
+  onClick={() => addToCart(product)}
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  className="group relative w-full flex items-center justify-center gap-2
+    bg-[#1A2E1A] text-white
+    h-10 lg:h-12 px-2
+    rounded-xl lg:rounded-2xl
+    shadow-md
+    overflow-hidden
+    transition-all duration-300"
+>
+  {/* Text */}
+  <span className="text-[9px] lg:text-[10px] font-bold uppercase tracking-widest whitespace-nowrap z-10">
+    Add to Bag
+  </span>
+
+  {/* Icon */}
+  <ShoppingBag className="w-3.5 h-3.5 z-10 transition-transform duration-300 group-hover:rotate-12" />
+
+  {/* Hover Slide Overlay */}
+  <div className="absolute inset-0 bg-green-900 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+</motion.button>
+
                 ) : (
                   <motion.div
                     key="toggle"

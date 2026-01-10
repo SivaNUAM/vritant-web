@@ -259,6 +259,7 @@ const Journal = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             className="relative z-10 max-w-2xl"
+            
           >
             <h2 className="text-4xl md:text-6xl font-serif mb-8 leading-tight">Rituals, delivered to <br/> <span className="italic font-light text-green-300">your sanctuary.</span></h2>
             <p className="text-green-200/50 mb-12 text-sm max-w-sm mx-auto font-light leading-relaxed">Join 25,000+ souls receiving our weekly botanical deep-dives and ancient wellness manuscripts.</p>
@@ -267,7 +268,7 @@ const Journal = () => {
               <input 
                 type="email" 
                 placeholder="email@example.com"
-                className="flex-grow bg-white/5 border border-white/10 rounded-full px-8 py-5 outline-none focus:border-green-400 transition-colors placeholder:text-green-900/30 text-sm font-medium"
+                className="flex-grow bg-white/5 border border-white/10 rounded-full px-8 py-5 outline-none focus:border-green-400 transition-colors placeholder:text-white-900/30 text-sm font-medium"
               />
               <button className="bg-white text-green-900 px-10 py-5 rounded-full font-black uppercase text-[10px] tracking-[0.2em] hover:bg-green-100 hover:scale-105 transition-all active:scale-95 shadow-xl">
                 Subscribe

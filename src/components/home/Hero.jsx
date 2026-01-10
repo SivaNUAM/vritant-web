@@ -97,9 +97,25 @@ const Hero = () => {
 
               <div className="flex flex-col sm:flex-row items-center gap-8">
                 <Link to="/shop" className="w-full sm:w-auto">
-                  <Button className="w-full sm:w-auto bg-[#1A2E1A] text-white px-10 py-5 rounded-full hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 group font-black text-[10px] uppercase tracking-widest">
-                    Explore Collection <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
-                  </Button>
+                 <motion.button
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  className="group relative w-full sm:w-auto bg-[#1A2E1A] text-white px-10 py-5 rounded-full
+    hover:shadow-2xl transition-all duration-300
+    flex items-center justify-center gap-3
+    font-black text-[10px] uppercase tracking-widest
+    overflow-hidden"
+>
+  <span className="z-10">
+    Explore Collection
+  </span>
+
+  <ArrowRight className="w-4 h-4 z-10 group-hover:translate-x-2 transition-transform duration-300" />
+
+  {/* Hover Slide Overlay */}
+  <div className="absolute inset-0 bg-green-900 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+</motion.button>
+
                 </Link>
                 
                 <div className="flex items-center gap-4">
@@ -169,7 +185,7 @@ const Hero = () => {
       <div className="hidden xl:flex absolute right-8 top-1/2 -translate-y-1/2 flex-col items-center gap-12 z-[100]">
         <div className="flex flex-col gap-8 text-[10px] font-black uppercase tracking-[0.5em] text-gray-400 [writing-mode:vertical-lr]">
           <a href="#" className="hover:text-green-800 transition-all duration-300">Instagram</a>
-          <a href="#" className="hover:text-green-800 transition-all duration-300">Pinterest</a>
+          {/* <a href="#" className="hover:text-green-800 transition-all duration-300">Pinterest</a> */}
           <a href="#" className="hover:text-green-800 transition-all duration-300">Facebook</a>
         </div>
         <div className="h-24 w-[1px] bg-green-800/20" />

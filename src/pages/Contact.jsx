@@ -148,14 +148,24 @@ const Contact = () => {
                   className="w-full bg-gray-50 border-none rounded-3xl p-6 focus:ring-2 focus:ring-green-800/20 outline-none transition-all placeholder:text-gray-300 resize-none"
                 />
               </div>
+<motion.button
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+  className="group relative w-full bg-[#1A2E1A] text-white py-6 rounded-2xl
+    font-black uppercase text-[10px] tracking-[0.3em]
+    shadow-xl overflow-hidden
+    transition-all duration-300
+    flex items-center justify-center gap-4"
+>
+  {/* Content */}
+  <span className="relative z-10 flex items-center gap-4">
+    Send Message <MessageCircle size={16} />
+  </span>
 
-              <motion.button 
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-[#1A2E1A] text-white py-6 rounded-2xl font-black uppercase text-[10px] tracking-[0.3em] shadow-xl hover:bg-green-900 transition-all flex items-center justify-center gap-4"
-              >
-                Send Message <MessageCircle size={16} />
-              </motion.button>
+  {/* Hover background slide (THIS is what was missing) */}
+  <div className="absolute inset-0 bg-green-900 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+</motion.button>
+
             </form>
           </motion.div>
         </div>
