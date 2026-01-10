@@ -209,85 +209,161 @@ const ProductList = () => {
         </div>
 
         {/* SECTION 4: PRODUCT GRID */}
-        <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
-          <AnimatePresence mode="popLayout">
-            {filteredProducts.slice(0, visibleCount).map((product) => {
-              const cartItem = cartItems?.find(item => item.id === product.id);
-              const quantity = cartItem ? cartItem.quantity : 0;
+      <motion.div
+  layout
+  className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12"
+>
+  <AnimatePresence mode="popLayout">
+    {filteredProducts.slice(0, visibleCount).map((product) => {
+      const cartItem = cartItems?.find(item => item.id === product.id);
+      const quantity = cartItem ? cartItem.quantity : 0;
 
-              return (
-                <motion.div 
-                  layout
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="group flex flex-col h-full bg-white p-3 rounded-[3rem] border border-gray-50 shadow-sm hover:shadow-2xl transition-all duration-700"
-                >
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] bg-[#F7F7F5] mb-6">
-                    <Link to={`/product/${product.id}`}>
-                      <img src={product.image} className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110" alt={product.name}/>
-                    </Link>
-                    {product.isNew && (
-                        <div className="absolute top-5 left-5 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-widest">New</div>
-                    )}
-                  </div>
+      return (
+        <motion.div
+          layout
+          key={product.id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          className="
+            group flex flex-col h-full
+            min-h-[420px] sm:min-h-0
+            bg-white rounded-[1.5rem] lg:rounded-[2.5rem]
+            p-2 lg:p-3
+            border border-gray-100 hover:border-green-100
+            transition-all duration-500
+            hover:shadow-[0_20px_40px_-10px_rgba(26,46,26,0.1)]
+          "
+        >
+          {/* IMAGE */}
+          <div
+            className="
+              relative aspect-[3/4] sm:aspect-[4/5]
+              overflow-hidden rounded-[1.2rem] lg:rounded-[2rem]
+              bg-[#F7F8F6] mb-4 lg:mb-5
+            "
+          >
+            <Link to={`/product/${product.id}`} className="block h-full w-full">
+              <motion.img
+                src={product.image}
+                alt={product.name}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                className="h-full w-full object-cover"
+              />
+            </Link>
 
-                  <div className="px-4 flex-grow">
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-[9px] font-black uppercase tracking-widest text-green-700">{product.category}</span>
-                        <div className="flex items-center gap-1"><Star size={10} className="fill-yellow-400 text-yellow-400" /><span className="text-[10px] font-bold">4.9</span></div>
-                    </div>
-                    <h3 className="font-serif text-2xl text-[#1A2E1A] mb-2">{product.name}</h3>
-                    <p className="text-xl font-serif font-bold text-gray-900">${product.price}</p>
-                  </div>
+            {product.isNew && (
+              <span className="absolute top-2 left-2 lg:top-4 lg:left-4 bg-[#1A2E1A] text-white text-[7px] lg:text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-full shadow-lg">
+                New
+              </span>
+            )}
+          </div>
 
-                  {/* Add to Cart Button Logic */}
-                  <div className="px-2 pt-6 pb-2">
-                    <div className="relative h-14 w-full overflow-hidden rounded-[1.5rem]">
-                      <AnimatePresence mode="wait">
-                        {quantity === 0 ? (
-                          <motion.button
-                            key="add"
-                            initial={{ y: 40 }} animate={{ y: 0 }} exit={{ y: -40 }}
-                            onClick={() => addToCart(product)}
-                            className="absolute inset-0 w-full flex items-center justify-center gap-3 bg-[#1A2E1A] text-white font-black text-[10px] uppercase tracking-[0.2em]"
-                          >
-                            <Plus size={14} /> Add to Bag
-                          </motion.button>
-                        ) : (
-                          <motion.div
-                            key="toggle"
-                            initial={{ y: 40 }} animate={{ y: 0 }} exit={{ y: -40 }}
-                            className="absolute inset-0 w-full flex items-center justify-between bg-green-50 px-2"
-                          >
-                            <button onClick={() => quantity === 1 ? removeFromCart(product.id) : updateQuantity(product.id, quantity - 1)} className="w-12 h-full flex items-center justify-center text-green-900 hover:bg-white rounded-xl transition-all"><Minus size={18} /></button>
-                            <span className="font-black text-[#1A2E1A] text-lg tabular-nums">{quantity}</span>
-                            <button onClick={() => updateQuantity(product.id, quantity + 1)} className="w-12 h-full flex items-center justify-center text-green-900 hover:bg-white rounded-xl transition-all"><Plus size={18} /></button>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+          {/* INFO */}
+          <div className="px-2 lg:px-3 flex-grow">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-widest text-green-700">
+                {product.category}
+              </span>
+              <div className="flex items-center gap-1">
+                <Star size={8} className="fill-yellow-400 text-yellow-400" />
+                <span className="text-[8px] lg:text-[10px] font-bold text-gray-400">
+                  4.9
+                </span>
+              </div>
+            </div>
+
+            <h3 className="font-serif text-[15px] lg:text-xl text-[#1A2E1A] leading-tight mb-2 line-clamp-1">
+              {product.name}
+            </h3>
+
+            <p className="text-sm lg:text-lg font-serif font-bold text-[#1A2E1A]">
+              ${product.price}
+            </p>
+          </div>
+
+          {/* CART (LOGIC UNCHANGED) */}
+          <div className="mt-auto px-2 lg:px-3 pt-4 pb-2 lg:pb-3 border-t border-gray-50">
+            <div className="relative h-11 lg:h-12 w-full overflow-hidden rounded-xl lg:rounded-2xl">
+              <AnimatePresence mode="wait">
+                {quantity === 0 ? (
+                  <button 
+            onClick={() => addToCart(product)}
+            className="w-full flex items-center justify-center gap-2 bg-[#1A2E1A] text-white h-10 lg:h-12 px-2 rounded-xl lg:rounded-2xl hover:bg-green-800 transition-all duration-300 active:scale-95 shadow-md group/btn"
+          >
+            <ShoppingBag className="w-3.5 h-3.5 group-hover/btn:rotate-12 transition-transform" />
+            <span className="text-[9px] lg:text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">
+              Add to Bag
+            </span>
+          </button>
+                ) : (
+                  <motion.div
+                    key="toggle"
+                    initial={{ y: 40 }}
+                    animate={{ y: 0 }}
+                    exit={{ y: -40 }}
+                    className="absolute inset-0 w-full flex items-center justify-between bg-green-50 px-2"
+                  >
+                    <button
+                      onClick={() =>
+                        quantity === 1
+                          ? removeFromCart(product.id)
+                          : updateQuantity(product.id, quantity - 1)
+                      }
+                      className="w-10 h-full flex items-center justify-center text-green-900 hover:bg-white rounded-xl transition-all"
+                    >
+                      <Minus size={16} />
+                    </button>
+
+                    <span className="font-black text-[#1A2E1A] text-base tabular-nums">
+                      {quantity}
+                    </span>
+
+                    <button
+                      onClick={() => updateQuantity(product.id, quantity + 1)}
+                      className="w-10 h-full flex items-center justify-center text-green-900 hover:bg-white rounded-xl transition-all"
+                    >
+                      <Plus size={16} />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
         </motion.div>
+      );
+    })}
+  </AnimatePresence>
+</motion.div>
+
 
         {/* SECTION 5: SEE MORE */}
         {filteredProducts.length > visibleCount && (
-          <div className="mt-24 flex justify-center">
-            <button 
-                onClick={() => setVisibleCount(filteredProducts.length)}
-                className="group relative flex items-center gap-4 bg-[#1A2E1A] text-white pl-10 pr-2 py-2 rounded-full overflow-hidden"
-            >
-                <span className="text-[10px] font-black uppercase tracking-widest z-10">Expand Collection</span>
-                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500 z-10">
-                    <Plus size={20} />
-                </div>
-            </button>
-          </div>
+          <motion.div
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  className="mt-24 flex justify-center"
+>
+  <motion.button
+    onClick={() => setVisibleCount(filteredProducts.length)}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className="group relative flex items-center gap-8 bg-[#1A2E1A] text-white pl-10 pr-3 py-3 rounded-full shadow-[0_20px_50px_rgba(26,46,26,0.15)] overflow-hidden"
+  >
+    <span className="text-[11px] font-black uppercase tracking-[0.25em] z-10">
+      Expand Collection
+    </span>
+
+    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-[#1A2E1A] transition-all duration-500 z-10">
+      <Plus size={20} className="group-hover:rotate-90 transition-transform duration-500" />
+    </div>
+
+    <div className="absolute inset-0 bg-green-900 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+  </motion.button>
+</motion.div>
+
         )}
       </div>
     </section>

@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, Star, Leaf } from "lucide-react";
+import { ArrowRight, Star, Leaf, Instagram, Twitter, Facebook } from "lucide-react";
 import Button from "../common/Button";
 
 const Hero = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 150]);
 
-  // --- TYPEWRITER (WRITTEN) LOGIC ---
+  // --- TYPEWRITER LOGIC ---
   const words = ["Refined.", "Pure.", "Restored.", "Healed."];
   const [index, setIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
@@ -18,26 +18,20 @@ const Hero = () => {
   useEffect(() => {
     const handleTyping = () => {
       const currentFullWord = words[index];
-      
       if (!isDeleting) {
-        // Adding characters
-        setDisplayText(currentFullFullWord => currentFullFullWord = currentFullWord.substring(0, displayText.length + 1));
+        setDisplayText(currentFullWord.substring(0, displayText.length + 1));
         setTypingSpeed(150);
       } else {
-        // Removing characters
-        setDisplayText(currentFullFullWord => currentFullFullWord = currentFullWord.substring(0, displayText.length - 1));
+        setDisplayText(currentFullWord.substring(0, displayText.length - 1));
         setTypingSpeed(75);
       }
-
-      // Determine when to switch states
       if (!isDeleting && displayText === currentFullWord) {
-        setTimeout(() => setIsDeleting(true), 2000); // Pause at end
+        setTimeout(() => setIsDeleting(true), 2000);
       } else if (isDeleting && displayText === "") {
         setIsDeleting(false);
         setIndex((prev) => (prev + 1) % words.length);
       }
     };
-
     const timer = setTimeout(handleTyping, typingSpeed);
     return () => clearTimeout(timer);
   }, [displayText, isDeleting, index, typingSpeed]);
@@ -84,7 +78,6 @@ const Hero = () => {
                 </span>
                 <br />
                 
-                {/* --- WRITTEN ANIMATION DISPLAY --- */}
                 <div className="h-[1.2em] flex items-center">
                   <span className="text-green-700 italic font-light inline-block">
                     {displayText}
@@ -104,7 +97,7 @@ const Hero = () => {
 
               <div className="flex flex-col sm:flex-row items-center gap-8">
                 <Link to="/shop" className="w-full sm:w-auto">
-                  <Button className="w-full sm:w-auto bg-[#1A2E1A] text-white px-10 py-5 rounded-full hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 group">
+                  <Button className="w-full sm:w-auto bg-[#1A2E1A] text-white px-10 py-5 rounded-full hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 group font-black text-[10px] uppercase tracking-widest">
                     Explore Collection <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                   </Button>
                 </Link>
@@ -134,6 +127,7 @@ const Hero = () => {
               transition={{ duration: 1 }}
               className="relative w-full max-w-[320px] sm:max-w-[400px] lg:max-w-full"
             >
+              {/* IMAGE CONTAINER */}
               <div className="relative rounded-[3rem] lg:rounded-[4rem] overflow-hidden shadow-2xl bg-white border-[8px] lg:border-[16px] border-white aspect-[4/5] z-10">
                 <img
                   src="https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=1200"
@@ -148,7 +142,7 @@ const Hero = () => {
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
                 className="absolute -right-4 lg:-right-10 top-1/4 backdrop-blur-xl bg-white/80 p-5 lg:p-7 rounded-[2rem] shadow-2xl border border-white/50 max-w-[150px] lg:max-w-[200px] z-20 hidden sm:block"
               >
-                <div className="bg-green-700 w-10 h-10 rounded-xl flex items-center justify-center mb-3 text-white shadow-lg shadow-green-900/20">
+                <div className="bg-green-700 w-10 h-10 rounded-xl flex items-center justify-center mb-3 text-white">
                   <Leaf size={20} />
                 </div>
                 <p className="text-sm font-bold text-gray-900 leading-tight">Hand-harvested in the Himalayas</p>
@@ -156,7 +150,7 @@ const Hero = () => {
               </motion.div>
 
               {/* Circular Badge */}
-              <div className="absolute -bottom-6 -left-6 lg:-bottom-12 lg:-left-12 w-28 h-28 lg:w-40 lg:h-40 bg-white rounded-full shadow-2xl flex items-center justify-center text-center p-4 z-20 overflow-hidden">
+              <div className="absolute -bottom-6 -left-6 lg:-bottom-12 lg:-left-12 w-28 h-28 lg:w-40 lg:h-40 bg-white rounded-full shadow-2xl flex items-center justify-center text-center p-4 z-20">
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
@@ -171,12 +165,22 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* 4. REFINED SOCIAL BAR */}
-      <div className="hidden xl:flex absolute right-10 top-1/2 -translate-y-1/2 flex-col gap-10 text-[10px] font-bold uppercase tracking-[0.4em] text-gray-300 [writing-mode:vertical-lr]">
-        <span className="hover:text-green-800 cursor-pointer transition-colors">Instagram</span>
-        <span className="hover:text-green-800 cursor-pointer transition-colors">Pinterest</span>
-        <div className="h-20 w-[1px] bg-gray-200 mx-auto" />
+      {/* --- 4. REFINED SOCIAL BAR (STUCK TO SIDE) --- */}
+      <div className="hidden xl:flex absolute right-8 top-1/2 -translate-y-1/2 flex-col items-center gap-12 z-[100]">
+        <div className="flex flex-col gap-8 text-[10px] font-black uppercase tracking-[0.5em] text-gray-400 [writing-mode:vertical-lr]">
+          <a href="#" className="hover:text-green-800 transition-all duration-300">Instagram</a>
+          <a href="#" className="hover:text-green-800 transition-all duration-300">Pinterest</a>
+          <a href="#" className="hover:text-green-800 transition-all duration-300">Facebook</a>
+        </div>
+        <div className="h-24 w-[1px] bg-green-800/20" />
       </div>
+
+      {/* --- MOBILE SOCIAL (Optional for better UI) --- */}
+      <div className="xl:hidden absolute bottom-6 left-6 flex gap-6 z-50">
+         <Instagram size={18} className="text-green-800/40" />
+         <Twitter size={18} className="text-green-800/40" />
+      </div>
+
     </section>
   );
 };

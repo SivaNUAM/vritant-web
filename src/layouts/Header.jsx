@@ -130,12 +130,59 @@ const Header = () => {
             }`}
           >
             {/* BRAND LOGO */}
-            <Link to="/" className="flex items-center gap-2 group shrink-0">
-               <img src={Logo} alt="Logo" className="h-7 w-7 lg:h-9 lg:w-9" />
-               <span className="text-lg lg:text-2xl font-serif font-bold tracking-tighter text-[#1A2E1A]">
-                VRI<span className="text-green-700 font-light italic">TANT</span>
-              </span>
-            </Link>
+         <Link to="/" className="flex items-center gap-3 lg:gap-4 group shrink-0 relative">
+  {/* --- LOGO IMAGE WITH GLOW & ROTATION --- */}
+  <div className="relative">
+    <motion.div 
+      whileHover={{ rotate: 90 }}
+      transition={{ type: "spring", stiffness: 200, damping: 15 }}
+      className="relative z-10"
+    >
+      <img 
+        src={Logo} 
+        alt="Vritant Logo" 
+        className="h-8 w-8 lg:h-11 lg:w-11 object-contain drop-shadow-sm" 
+      />
+    </motion.div>
+    
+    {/* Subtle background pulse behind logo on hover */}
+    <div className="absolute inset-0 bg-green-200/30 blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-700 -z-10" />
+  </div>
+
+  {/* --- BRAND TYPOGRAPHY --- */}
+  <div className="flex flex-col justify-center leading-none">
+    <div className="flex items-baseline overflow-hidden">
+      <span className="text-xl lg:text-3xl font-serif font-black tracking-[-0.05em] text-[#1A2E1A] flex">
+        {/* VRI - Bold and Authoritative */}
+        <span className="inline-block group-hover:translate-y-[-2px] transition-transform duration-500">
+          VRI
+        </span>
+
+        {/* TANT - The Elegant Transformation */}
+        <span className="relative flex flex-col overflow-hidden">
+          <span className="text-green-700 font-light italic tracking-tight pl-0.5 transform transition-all duration-700 group-hover:translate-y-[-110%] group-hover:opacity-0">
+            TANT
+          </span>
+          {/* Subtle reveal on hover - appearing from below */}
+          <span className="absolute top-full left-0 text-green-900 font-serif italic font-medium tracking-tighter pl-0.5 transition-all duration-700 group-hover:translate-y-[-100%]">
+            TANT
+          </span>
+        </span>
+      </span>
+    </div>
+
+    {/* Luxury Subline (The "Pro" Touch) */}
+    <motion.div 
+      initial={{ opacity: 0, width: 0 }}
+      whileInView={{ opacity: 1, width: 'auto' }}
+      className="overflow-hidden whitespace-nowrap"
+    >
+      <span className="text-[7px] lg:text-[8px] font-bold uppercase tracking-[0.5em] text-green-800/40">
+        By Anjana Raj
+      </span>
+    </motion.div>
+  </div>
+</Link>
 
             {/* DESKTOP NAVIGATION */}
             <nav className="hidden md:flex items-center gap-8 lg:gap-10">
